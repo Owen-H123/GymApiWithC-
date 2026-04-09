@@ -32,7 +32,7 @@ GymAPI/
 
 ---
 
-## 🚀 Instalación Rápida
+##  Instalación Rápida
 
 ### 1. Clonar y Entrar
 ```bash
@@ -62,7 +62,7 @@ La API estará en: `http://localhost:5252`
 
 ---
 
-## 🔑 Credenciales de Prueba
+## Credenciales de Prueba
 Usa estos usuarios para obtener tu token en `POST /api/auth/login`:
 
 | Usuario | Email | Password | Rol |
@@ -165,9 +165,18 @@ Authorization: Bearer <token>
 | POST | `/api/rutinas` | Crear rutina | ADMIN, ENTRENADOR |
 | DELETE | `/api/rutinas/{id}` | Desactivar rutina | ADMIN |
 
+### Membresías
+| Método | Ruta | Descripción | Rol |
+|--------|------|-------------|-----|
+| GET | `/api/membresias` | Listar membresías | ADMIN |
+| POST | `/api/membresias` | Crear nueva membresía | ADMIN |
+| POST | `/api/membresias/asignar` | Asignar membresía a socio | ADMIN |
+
 ---
 
 ## 🧪 Pruebas con Postman
+
+> **Nota:** En la raíz del proyecto se incluye el archivo `GymAPI_Postman_Collection.json` listo para ser importado en Postman. Esta colección contiene todos los endpoints y tokens ya configurados automáticamente tras el Login.
 
 ### Flujo básico de pruebas:
 

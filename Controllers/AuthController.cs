@@ -1,6 +1,5 @@
-using GymAPI.Data;
+using GymAPI.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -12,22 +11,19 @@ namespace GymAPI.Controllers;
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
-    private readonly GymDbContext _db;
+    private readonly IAuthRepository _repo;
     private readonly IConfiguration _config;
 
-    public AuthController(GymDbContext db, IConfiguration config)
+    public AuthController(IAuthRepository repo, IConfiguration config)
     {
-        _db = db;
+        _repo = repo;
         _config = config;
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        var user = await _db.Users
-            .Include(u => u.UserRoles)
-            .ThenInclude(ur => ur.Role)
-            .FirstOrDefaultAsync(u => u.NormalizedEmail == request.Email.ToUpper());
+        var user = await _repo.GetUserByEmailAsync(request.Email);
 
         if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
             return Unauthorized(new { mensaje = "Credenciales incorrectas" });
@@ -46,7 +42,6 @@ public class AuthController : ControllerBase
             expiracion = expedicion
         });
     }
-
 
     private string GenerarToken(int userId, string email, string rol)
     {

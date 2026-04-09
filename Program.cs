@@ -44,6 +44,12 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddScoped<GymAPI.Repositories.IAuthRepository, GymAPI.Repositories.AuthRepository>();
+builder.Services.AddScoped<GymAPI.Repositories.ISociosRepository, GymAPI.Repositories.SociosRepository>();
+builder.Services.AddScoped<GymAPI.Repositories.IEntrenadoresRepository, GymAPI.Repositories.EntrenadoresRepository>();
+builder.Services.AddScoped<GymAPI.Repositories.IAsistenciasRepository, GymAPI.Repositories.AsistenciasRepository>();
+builder.Services.AddScoped<GymAPI.Repositories.IRutinasRepository, GymAPI.Repositories.RutinasRepository>();
+
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 
