@@ -1,0 +1,10 @@
+using BCrypt.Net;
+using System;
+
+class Program {
+    static void Main() {
+        Console.WriteLine("Admin123!: " + BCrypt.Net.BCrypt.HashPassword("Admin123!"));
+        Console.WriteLine("Trainer123!: " + BCrypt.Net.BCrypt.HashPassword("Trainer123!"));
+        Console.WriteLine("Socio123!: " + BCrypt.Net.BCrypt.HashPassword("Socio123!"));
+    }
+}

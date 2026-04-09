@@ -32,47 +32,54 @@ GymAPI/
 
 ---
 
-## 🚀 Instalación y Ejecución
+## 🚀 Instalación Rápida
 
-### Paso 1 — Clonar el repositorio
+### 1. Clonar y Entrar
 ```bash
 git clone https://github.com/Owen-H123/GymApiWithC-.git
 cd GymApiWithC-
 ```
 
-### Paso 2 — Levantar SQL Server con Docker
+### 2. Levantar SQL Server
 ```bash
-docker compose up -d sqlserver
+docker compose up -d
+```
+> [!TIP]
+> Espera a que el contenedor esté **Healthy** (puedes verlo con `docker ps`).
+
+### 3. Inicializar Base de Datos
+Ejecuta este comando para crear las tablas y cargar los datos de prueba:
+```bash
+docker exec -i gym_sqlserver /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "Root1234" -C < script-bdgym.sql
 ```
 
-Verifica que esté corriendo:
-```bash
-docker ps
-```
-Debes ver `gym_sqlserver` con estado **Up**.
-
-### Paso 3 — Crear la base de datos
-
-Espera 20 segundos para que SQL Server inicie y ejecuta:
-```bash
-docker exec -i gym_sqlserver /opt/mssql-tools18/bin/sqlcmd \
-  -S localhost -U sa -P "Root1234" \
-  -i /dev/stdin -C < script-bdgym.sql
-```
-
-**En Mac con Apple Silicon (M1/M2/M3)** el `docker-compose.yml` ya incluye `platform: linux/amd64` para compatibilidad.
-
-### Paso 4 — Restaurar dependencias
+### 4. Ejecutar API
 ```bash
 dotnet restore
-```
-
-### Paso 5 — Ejecutar la API
-```bash
 dotnet run
 ```
+La API estará en: `http://localhost:5252`
 
-La API estará disponible en: `http://localhost:5252`
+---
+
+## 🔑 Credenciales de Prueba
+Usa estos usuarios para obtener tu token en `POST /api/auth/login`:
+
+| Usuario | Email | Password | Rol |
+|---------|-------|----------|-----|
+| **Admin** | `admin@gym.local` | `Admin123!` | `ADMIN` |
+| **Entrenador** | `entrenador@gym.local` | `Trainer123!` | `ENTRENADOR` |
+| **Socio** | `socio@gym.local` | `Socio123!` | `SOCIO` |
+
+---
+
+## 🛠️ Endpoints Principales
+| Método | Ruta | Descripción | Requiere |
+|--------|------|-------------|----------|
+| POST | `/api/auth/login` | Obtener Token JWT | Público |
+| GET | `/api/socios` | Listar Socios | Token ADMIN |
+| GET | `/api/asistencias` | Ver Asistencias | Token ADMIN |
+| POST | `/api/rutinas` | Crear Rutina | Token ENTRENADOR |
 
 ---
 
@@ -170,14 +177,6 @@ Authorization: Bearer <token>
 4. **Registrar asistencia** → `POST /api/asistencias` con token ADMIN o ENTRENADOR
 5. **Ver historial** → `GET /api/asistencias/socio/1` con token
 6. **Ver rutinas** → `GET /api/rutinas/socio/1` con token
-
-### Usuarios de prueba:
-
-| Email | Password | Rol |
-|-------|----------|-----|
-| admin@gym.local | Admin123! | ADMIN |
-| entrenador@gym.local | (actualizar con /setup) | ENTRENADOR |
-| socio@gym.local | (actualizar con /setup) | SOCIO |
 
 ---
 

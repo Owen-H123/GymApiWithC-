@@ -242,9 +242,9 @@ GO
 -- En producción, este hash lo genera tu backend (PBKDF2/BCrypt/Argon2).
 INSERT INTO dbo.Users (UserName, NormalizedUserName, Email, NormalizedEmail, PasswordHash, PhoneNumber)
 VALUES
- (N'admin',      N'ADMIN',      N'admin@gym.local',      N'ADMIN@GYM.LOCAL',      N'**HASH**', N'+51 900000001'),
- (N'entrenador', N'ENTRENADOR', N'entrenador@gym.local', N'ENTRENADOR@GYM.LOCAL', N'**HASH**', N'+51 900000002'),
- (N'socio',      N'SOCIO',      N'socio@gym.local',      N'SOCIO@GYM.LOCAL',      N'**HASH**', N'+51 900000003');
+ (N'admin',      N'ADMIN',      N'admin@gym.local',      N'ADMIN@GYM.LOCAL',      N'$2a$11$jA5zlRXNol2tjDGYv930r.FVNbBCdTrcJqhZE11oHFj.TJAda3Nta', N'+51 900000001'),
+ (N'entrenador', N'ENTRENADOR', N'entrenador@gym.local', N'ENTRENADOR@GYM.LOCAL', N'$2a$11$VcZRu99ie6moOaSN7aC.6eXGyEIisUIcnDsWGl/b/xc0VTFjgjXK.', N'+51 900000002'),
+ (N'socio',      N'SOCIO',      N'socio@gym.local',      N'SOCIO@GYM.LOCAL',      N'$2a$11$lkmTaxIHUi8x6T1oECWt8ullSRuZhkBECVLlKNs4aILizR95hizGG', N'+51 900000003');
 GO
 
 -- Asociar roles a usuarios demo

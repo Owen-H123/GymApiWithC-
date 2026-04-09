@@ -35,25 +35,18 @@ public class AuthController : ControllerBase
         var rol = user.UserRoles.FirstOrDefault()?.Role?.Name ?? "SOCIO";
         var token = GenerarToken(user.UserId, user.Email, rol);
 
+        var expirationHours = int.Parse(_config.GetSection("JwtSettings")["ExpirationHours"] ?? "8");
+        var expedicion = DateTime.UtcNow.AddHours(expirationHours);
+
         return Ok(new
         {
             token,
             email = user.Email,
             rol,
-            expiracion = DateTime.UtcNow.AddHours(8)
+            expiracion = expedicion
         });
     }
-    [HttpPost("setup")]
-public async Task<IActionResult> Setup()
-{
-    var user = await _db.Users.FirstOrDefaultAsync(u => u.UserName == "admin");
-    if (user == null) return NotFound();
-    
-    user.PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin123!");
-    await _db.SaveChangesAsync();
-    
-    return Ok(new { mensaje = "Password actualizado correctamente" });
-}
+
 
     private string GenerarToken(int userId, string email, string rol)
     {
@@ -68,11 +61,13 @@ public async Task<IActionResult> Setup()
             new Claim(ClaimTypes.Role, rol)
         };
 
+        var expirationHours = int.Parse(jwt["ExpirationHours"] ?? "8");
+
         var token = new JwtSecurityToken(
             issuer:    jwt["Issuer"],
             audience:  jwt["Audience"],
             claims:    claims,
-            expires:   DateTime.UtcNow.AddHours(8),
+            expires:   DateTime.UtcNow.AddHours(expirationHours),
             signingCredentials: creds
         );
 
