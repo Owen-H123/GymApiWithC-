@@ -205,7 +205,8 @@ Users ──── UserRoles ──── Roles
 
 ##  Equipo de Desarrollo
 
-- fabricio
-- bionda
-- eduardo
-- owen
+- Fabricio
+- Bionda
+- Eduardo
+- Owen
+- Bryan
